@@ -8,13 +8,23 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from .models import User
+from .models import User, SongsList
 # Create your views here.
 
 
 @login_required(login_url="/login")  
 def index(request):
-    return render(request, "extensionWeb/index.html")
+
+    if request.method == "POST":
+        songURL = request.POST["songName"]
+        
+        addSong = SongsList(user=request.user, songURL=songURL)
+        addSong.save()
+
+        return HttpResponseRedirect(reverse("index"))
+    
+    else:
+        return render(request, "extensionWeb/index.html")
 
 
 def login_view(request):
@@ -71,12 +81,8 @@ def register(request):
 
 @login_required(login_url='/login')
 def get_user_data(request):
-    songs = request.GET.get('songs')
-    print('songs:', songs)
 
-    data = {
-        'songs': 'list of songs here',
-    }
+    data = SongsList.objects.filter(user=request.user)
     
     print('json-data to be sent: ', data)
-    return JsonResponse(data)
+    return JsonResponse([data.serialize() for data in data], safe=False)
