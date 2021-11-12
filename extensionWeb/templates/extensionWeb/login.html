@@ -1,0 +1,29 @@
+{% extends "extensionWeb/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <section class="form login">
+        <h2>Login</h2>
+
+        {% if message %}
+        <div class="error">{{ message }}</div>
+        {% endif %}
+
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <div>
+                <input autofocus type="text" name="username" placeholder="Username" required>
+            </div>
+            <div>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <input class="btn" type="submit" value="Login">
+        </form>
+        <p>
+            Don't have an account? <a href="{% url 'register' %}">Register here.</a>
+        </p>
+    </section>
+    
+
+{% endblock %}
