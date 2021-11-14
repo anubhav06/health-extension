@@ -1,14 +1,14 @@
 {
     "name": "Moodify",
-    "description": "Play a song based on your mood",
+    "description": "Helps with your mental health by playing songs based on that",
     "version": "1.0",
     "manifest_version": 2,
   
     "background": {
       "scripts": ["background.js"]
     },
-  
+
     "browser_action": {
       "default_popup": "popup.html"
     }
-  }
+}
